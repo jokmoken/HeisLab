@@ -8,8 +8,9 @@
 
 #include "elevio.h"
 #include "con_load.h"
+#include "fsm.h"
 
-//N_FLOORS = 4
+//#define N_FLOORS 4
 
 
 //#define MAX_FLOOR 6
@@ -25,8 +26,10 @@ typedef enum {
 } Orderlist;
 
 
-void addRequest(int floor, Orderlist order){
-
+void addRequest(ElevatorState elevator, Orderlist order){
+    if(floor >= 0 && floor < N_FLOORS) {
+        
+    }
 
 }
 
