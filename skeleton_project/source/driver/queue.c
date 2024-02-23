@@ -26,16 +26,30 @@ typedef enum {
 } Orderlist;
 
 
-void addRequest(ElevatorState elevator, Orderlist order){
+void addRequest(ElevatorSystem *elevator, int floor, Orderlist order){
     if(floor >= 0 && floor < N_FLOORS) {
-        
+        elevator->requestQueue[floor][order];
     }
 
 }
 
-void removeRequest(int floor, Orderlist order){
-
+void removeRequest(ElevatorSystem *elevator, int floor){
+    for(int i = 0; i < N_BUTTONS; i++){
+        elevator->requestQueue[floor][i] = 0;
+    };
 }
+
+
+
+void emergency_clean_all(ElevatorSystem *elevator){
+    for(int i = 0; i < N_FLOORS; i++){
+        for(int j = 0; j < N_BUTTONS; j++){
+            elevator->requestQueue[i][j] = 0;
+        }
+    }
+}
+
+
 
 
 

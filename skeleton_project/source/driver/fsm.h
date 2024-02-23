@@ -1,4 +1,5 @@
 #pragma once
+#include "elevio.h"
 
 
 typedef enum {
@@ -13,4 +14,7 @@ typedef struct {
     ElevatorState state;
     int requestQueue[N_FLOORS][N_BUTTONS];
     int CurrentFloor;
-}
+} ElevatorSystem;
+
+
+
