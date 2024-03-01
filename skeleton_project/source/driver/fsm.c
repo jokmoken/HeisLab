@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <stdbool.h>
+#include <time.h>
 
 #include "elevio.h"
 #include "con_load.h"
@@ -41,6 +42,10 @@ void initializeElevator(Elevator* elevator) {
     }
     while(elevator->currentFloor != 0){ // Vent til etasje 1 er nådd
         elevator->currentFloor = elevio_floorSensor();
+        nanosleep(&(struct timespec){0, 20 * 1000 * 1000}, NULL);
+        if(elevator->currentFloor == 0){
+            break;
+        }
     }
     if(elevator->currentFloor == 0){
             elevio_motorDirection(DIRN_STOP);
@@ -58,6 +63,7 @@ void initializeElevator(Elevator* elevator) {
             elevator->requestQueue[f][b] = 0;
         }
     }
+    printf("køen når ferdig: %d", elevator->requestQueue);
     elevio_floorIndicator(elevator->currentFloor);
     elevator->state = Idle; // Sett state til idle
 }
