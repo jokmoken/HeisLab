@@ -5,6 +5,7 @@
 #include <netdb.h>
 #include <stdio.h>
 #include <pthread.h>
+#include <stdbool.h>
 
 #include "elevio.h"
 #include "con_load.h"
@@ -13,26 +14,30 @@
 
 #define Between_floors -1
 static int current_floor = 0;
+bool hasRequest = false;
 
+/*
 void update_floor(){
     current_floor = elevio_floorSensor();
 }
 
 void Initial_state(){
     emergency_clean_all();
-    Update_floor();
+    update_floor();
     if (current_floor == Between_floors){
 
     }
 }
+*/
 
 void initializeElevator(Elevator* elevator) {
     elevio_init();
     elevator->currentFloor = elevio_floorSensor();
     if (elevator->currentFloor != 0) { // Sjekk om vi er i første etasje
         elevio_motorDirection(DIRN_DOWN); // hvis ikke kjør nedover
-        while (elevio_floorSensor() != 0); // Vent til etasje 1 er nådd
-        elevio_motorDirection(DIRN_STOP); // Stop her
+        if(elevio_floorSensor() == 0){ // Vent til etasje 1 er nådd
+        elevio_motorDirection(DIRN_STOP);
+        } // Stopp her
     }
     //initialiser så Elevator med korrekte verdier
     elevator->currentFloor = 0; //første etasje
@@ -112,7 +117,7 @@ void handleDoorOpenState(Elevator* elevator) {
 
 // Ta seg av krise
 void handleEmergencyState(Elevator* elevator) {
-    if(elevator->state = Emergency){
+    if(elevator->state == Emergency){
         elevio_motorDirection(DIRN_STOP);
     for (int f = 0; f < N_FLOORS; f++) {
         for (int b = 0; b < N_BUTTONS; b++) {
@@ -136,7 +141,7 @@ void transition(Elevator* elevator, ElevatorState newState, Action action) {
             break;
         //caser for opp og ned
         case Moving_Up:
-            if(action = Enter){
+            if(action == Enter){
                 elevio_motorDirection(DIRN_UP);
                 elevator->direction = 1;
             }

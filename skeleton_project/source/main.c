@@ -3,26 +3,32 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
-#include "fsm.h"
-#include "queue.h"
-#include "elevio.h"
+#include "driver/fsm.h"
+#include "driver/queue.h"
+#include "driver/tests.h"
+
 
 Elevator elevator;
 
 
 int main(){
-    elevio_init();
+    //elevio_init();
     initializeElevator(&elevator);
+
+    testMoveToFloor();
 
     //trenger noe som sjekker hvilke knapper som er trykket på
     //eller som hele tiden henter siste knapp som er trykket på
     //en buttons fil med funksjonalitet
 
-    while(1) {
-        if(elevio_stopButton){
+    while(0) {
+
+/*
+        if(elevio_stopButton()){
             handleEmergencyState(&elevator);
         }
     }
+    */
 
     elevio_init();
     
@@ -33,6 +39,8 @@ int main(){
 
     while(1){
         int floor = elevio_floorSensor();
+        //printf("Vi leser nå etasje: ");
+        //printf(&floor);
 
         if(floor == 0){
             elevio_motorDirection(DIRN_UP);
@@ -69,4 +77,5 @@ int main(){
     }
 
     return 0;
+}
 }
