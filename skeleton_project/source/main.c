@@ -3,10 +3,27 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
+#include "fsm.h"
+#include "queue.h"
+#include "elevio.h"
 
+Elevator elevator;
 
 
 int main(){
+    elevio_init();
+    initializeElevator(&elevator);
+
+    //trenger noe som sjekker hvilke knapper som er trykket på
+    //eller som hele tiden henter siste knapp som er trykket på
+    //en buttons fil med funksjonalitet
+
+    while(1) {
+        if(elevio_stopButton){
+            handleEmergencyState(&elevator);
+        }
+    }
+
     elevio_init();
     
     printf("=== Example Program ===\n");
