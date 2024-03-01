@@ -12,8 +12,8 @@
 #include "fsm.h"
 
 
-#define Between_floors -1
-static int current_floor = 0;
+//#define Between_floors -1
+static int current_Floor = 0;
 bool hasRequest = false;
 
 /*
@@ -32,13 +32,23 @@ void Initial_state(){
 
 void initializeElevator(Elevator* elevator) {
     elevio_init();
+    
     elevator->currentFloor = elevio_floorSensor();
+    printf("Initial sensor reading: %d", elevator->currentFloor);
+    fflush(stdout);
     if (elevator->currentFloor != 0) { // Sjekk om vi er i første etasje
         elevio_motorDirection(DIRN_DOWN); // hvis ikke kjør nedover
-        if(elevio_floorSensor() == 0){ // Vent til etasje 1 er nådd
-        elevio_motorDirection(DIRN_STOP);
-        } // Stopp her
     }
+    while(elevator->currentFloor != 0){ // Vent til etasje 1 er nådd
+        elevator->currentFloor = elevio_floorSensor();
+    }
+    if(elevator->currentFloor == 0){
+            elevio_motorDirection(DIRN_STOP);
+            printf("siste sensor reading: %d", elevator->currentFloor);
+            fflush(stdout);
+            
+        } // Stopp her
+        
     //initialiser så Elevator med korrekte verdier
     elevator->currentFloor = 0; //første etasje
     elevator->direction = 0; // Idle
