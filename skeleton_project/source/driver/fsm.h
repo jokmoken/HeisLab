@@ -9,6 +9,7 @@ typedef enum {
     Emergency
 } ElevatorState;
 
+
 typedef struct {
     ElevatorState state;
     int requestQueue[N_FLOORS][N_BUTTONS];
