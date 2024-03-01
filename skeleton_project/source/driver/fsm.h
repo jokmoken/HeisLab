@@ -16,5 +16,6 @@ typedef struct {
     int CurrentFloor;
 } ElevatorSystem;
 
+void Initial_state();
 
 
