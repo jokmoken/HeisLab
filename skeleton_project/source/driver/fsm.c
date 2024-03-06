@@ -37,9 +37,21 @@ void initializeElevator(Elevator* elevator) {
     elevator->currentFloor = elevio_floorSensor();
     printf("Initial sensor reading: %d", elevator->currentFloor);
     fflush(stdout);
-    if (elevator->currentFloor != 0) { // Sjekk om vi er i første etasje
+    while(elevator->currentFloor != 0){
+        if (elevator->currentFloor != 0) { // Sjekk om vi er i første etasje
         elevio_motorDirection(DIRN_DOWN); // hvis ikke kjør nedover
     }
+        if(elevator->currentFloor == 0){
+            transition(elevator, Idle, Enter);
+            break;
+        }
+    }
+
+    //transition(elevator, Idle, Enter);
+    printf("state er nå: %c", elevator->state);
+    
+    
+    /*
     while(elevator->currentFloor != 0){ // Vent til etasje 1 er nådd
         elevator->currentFloor = elevio_floorSensor();
         nanosleep(&(struct timespec){0, 20 * 1000 * 1000}, NULL);
@@ -47,11 +59,12 @@ void initializeElevator(Elevator* elevator) {
             break;
         }
     }
+
     if(elevator->currentFloor == 0){
             elevio_motorDirection(DIRN_STOP);
             printf("siste sensor reading: %d", elevator->currentFloor);
-            fflush(stdout);
-            
+            //fflush(stdout);
+        
         } // Stopp her
         
     //initialiser så Elevator med korrekte verdier
@@ -65,7 +78,10 @@ void initializeElevator(Elevator* elevator) {
     }
     printf("køen når ferdig: %d", elevator->requestQueue);
     elevio_floorIndicator(elevator->currentFloor);
+    transition(elevator, Idle, )
     elevator->state = Idle; // Sett state til idle
+    printf("state er nå: %c", elevator->state);
+    */
 }
 
 // State for å ta seg av "Idle"
