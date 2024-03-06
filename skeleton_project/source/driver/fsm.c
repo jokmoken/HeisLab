@@ -35,16 +35,24 @@ void initializeElevator(Elevator* elevator) {
     elevio_init();
     
     elevator->currentFloor = elevio_floorSensor();
+    if (elevator->currentFloor != 0) { // Sjekk om vi er i første etasje
+        elevio_motorDirection(DIRN_DOWN); // hvis ikke kjør nedover
+        //transition(elevator, Moving_Down, Enter);
+    }
+
     printf("Initial sensor reading: %d", elevator->currentFloor);
+    
     fflush(stdout);
     while(elevator->currentFloor != 0){
-        if (elevator->currentFloor != 0) { // Sjekk om vi er i første etasje
-        elevio_motorDirection(DIRN_DOWN); // hvis ikke kjør nedover
-    }
+        elevator->currentFloor = elevio_floorSensor();
+
         if(elevator->currentFloor == 0){
             transition(elevator, Idle, Enter);
+            printf("final sensor reading: %d", elevator);
+            fflush(stdout);
             break;
         }
+        nanosleep(&(struct timespec){0, 20 * 1000 * 1000}, NULL);
     }
 
     //transition(elevator, Idle, Enter);
