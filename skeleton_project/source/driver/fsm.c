@@ -32,49 +32,19 @@ void Initial_state(){
 */
 
 void initializeElevator(Elevator* elevator) {
-    elevio_init();
-    
-    elevator->currentFloor = elevio_floorSensor();
-    if (elevator->currentFloor != 0) { // Sjekk om vi er i første etasje
-        elevio_motorDirection(DIRN_DOWN); // hvis ikke kjør nedover
-        //transition(elevator, Moving_Down, Enter);
+    while(elevio_floorSensor() == -1){
+        elevio_motorDirection(DIRN_DOWN);
     }
-
-    printf("Initial sensor reading: %d", elevator->currentFloor);
-    
-    fflush(stdout);
-    while(elevator->currentFloor != 0){
-        elevator->currentFloor = elevio_floorSensor();
-
-        if(elevator->currentFloor == 0){
-            transition(elevator, Idle, Enter);
-            printf("final sensor reading: %d", elevator);
-            fflush(stdout);
-            break;
-        }
-        nanosleep(&(struct timespec){0, 20 * 1000 * 1000}, NULL);
-    }
-
-    //transition(elevator, Idle, Enter);
-    printf("state er nå: %c", elevator->state);
+    elevio_motorDirection(DIRN_STOP);
+    printf("Initialization done \n");
     
     
-    /*
-    while(elevator->currentFloor != 0){ // Vent til etasje 1 er nådd
-        elevator->currentFloor = elevio_floorSensor();
-        nanosleep(&(struct timespec){0, 20 * 1000 * 1000}, NULL);
-        if(elevator->currentFloor == 0){
-            break;
-        }
-    }
 
-    if(elevator->currentFloor == 0){
-            elevio_motorDirection(DIRN_STOP);
-            printf("siste sensor reading: %d", elevator->currentFloor);
-            //fflush(stdout);
-        
-        } // Stopp her
-        
+    transition(elevator, Idle, Enter);
+    printf("state er nå: %u ", elevator->state);
+    
+    
+   
     //initialiser så Elevator med korrekte verdier
     elevator->currentFloor = 0; //første etasje
     elevator->direction = 0; // Idle
@@ -84,12 +54,11 @@ void initializeElevator(Elevator* elevator) {
             elevator->requestQueue[f][b] = 0;
         }
     }
+    int i;
     printf("køen når ferdig: %d", elevator->requestQueue);
-    elevio_floorIndicator(elevator->currentFloor);
-    transition(elevator, Idle, )
-    elevator->state = Idle; // Sett state til idle
-    printf("state er nå: %c", elevator->state);
-    */
+    for (i = 0; i < 4; i++) {
+        printf("%d\n", elevator->requestQueue[i]);
+    }    
 }
 
 // State for å ta seg av "Idle"

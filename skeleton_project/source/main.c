@@ -24,10 +24,18 @@ Elevator elevator;
 
 int main()
 {
-    
+    elevio_init();
+
     initializeElevator(&elevator);
-    printf("Initialization done");
-    testMoveToFloor();
+    //initialization of elevator done before the while loop starts every time
+    
+    
+
+    
+    
+
+    
+    //testMoveToFloor();
     
     nanosleep(&(struct timespec){0, 20 * 1000 * 1000}, NULL);
     
