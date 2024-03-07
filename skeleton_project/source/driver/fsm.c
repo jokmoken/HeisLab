@@ -17,19 +17,7 @@
 static int current_Floor = 0;
 bool hasRequest = false;
 
-/*
-void update_floor(){
-    current_floor = elevio_floorSensor();
-}
 
-void Initial_state(){
-    emergency_clean_all();
-    update_floor();
-    if (current_floor == Between_floors){
-
-    }
-}
-*/
 
 void initializeElevator(Elevator* elevator) {
     while(elevio_floorSensor() == -1){
@@ -41,7 +29,7 @@ void initializeElevator(Elevator* elevator) {
     
 
     transition(elevator, Idle, Enter);
-    printf("state er nå: %u ", elevator->state);
+    printf("state er nå: %u \n", elevator->state);
     
     
    
@@ -54,11 +42,13 @@ void initializeElevator(Elevator* elevator) {
             elevator->requestQueue[f][b] = 0;
         }
     }
-    int i;
-    printf("køen når ferdig: %d", elevator->requestQueue);
-    for (i = 0; i < 4; i++) {
-        printf("%d\n", elevator->requestQueue[i]);
-    }    
+    
+    for (int f = 0; f < N_FLOORS; f++) {
+        for (int b = 0; b < N_BUTTONS; b++) {
+            printf("%d", elevator->requestQueue[f][b]);
+        }
+        printf("\n");
+    }
 }
 
 // State for å ta seg av "Idle"
@@ -73,11 +63,13 @@ void handleIdleState(Elevator* elevator) {
                 //hvis f er større gå opp
                 if (f > elevator->currentFloor) {
                     elevator->direction = 1;
-                    transition(elevator, Moving_Up, Enter);
+                    transition(elevator, Moving, Enter);
+                    //break;
                 //f mindre gå ned
                 } else if (f < elevator->currentFloor) {
                     elevator->direction = -1;
-                    transition(elevator, Moving_Down, Enter);
+                    transition(elevator, Moving, Enter);
+                    //break;
                 //hvis ordren kommer fra samme etasje
                 } else { 
                     transition(elevator, DoorOpen, Enter);
@@ -126,6 +118,7 @@ void handleDoorOpenState(Elevator* elevator) {
 
 // Ta seg av krise
 void handleEmergencyState(Elevator* elevator) {
+    printf("we are in an emergency state");
     if(elevator->state == Emergency){
         elevio_motorDirection(DIRN_STOP);
     for (int f = 0; f < N_FLOORS; f++) {
@@ -149,18 +142,11 @@ void transition(Elevator* elevator, ElevatorState newState, Action action) {
             }
             break;
         //caser for opp og ned
-        case Moving_Up:
+        case Moving:
             if(action == Enter){
-                elevio_motorDirection(DIRN_UP);
-                elevator->direction = 1;
+                handleMovingState(elevator);
             }
-
-        case Moving_Down:
-            if (action == Enter) {
-                elevio_motorDirection(DIRN_DOWN);
-                elevator->direction = -1;
-            }
-            break;
+        
         case DoorOpen:
             if (action == Enter) {
                 //skru på lys
@@ -189,4 +175,8 @@ void transition(Elevator* elevator, ElevatorState newState, Action action) {
             }
             break;
     }
+}
+
+ElevatorState fetch_next_state(Elevator* elevator){
+    return elevator->state;
 }

@@ -4,8 +4,7 @@
 
 typedef enum {
     Idle,
-    Moving_Up,
-    Moving_Down,
+    Moving,
     DoorOpen,
     Emergency
 } ElevatorState;
@@ -31,4 +30,4 @@ void handleMovingState(Elevator* elevator);
 void handleDoorOpenState(Elevator* elevator);
 void handleEmergencyState(Elevator* elevator);
 void transition(Elevator* elevator, ElevatorState newState, Action action);
-
+ElevatorState fetch_next_state(Elevator* elevator);

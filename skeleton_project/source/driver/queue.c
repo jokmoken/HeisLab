@@ -29,7 +29,7 @@ typedef enum {
 
 void addRequest(Elevator *elevator, int floor, ButtonType order){
     if(floor >= 0 && floor < N_FLOORS) {
-        elevator->requestQueue[floor][order];
+        elevator->requestQueue[floor][order] = 1;
     }
 
 }
