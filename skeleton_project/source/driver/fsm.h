@@ -1,5 +1,6 @@
 #pragma once
 #include "elevio.h"
+#include <time.h>
 
 
 typedef enum {
@@ -20,6 +21,7 @@ typedef struct {
     int requestQueue[N_FLOORS][N_BUTTONS];
     int currentFloor;
     int direction; // 1 is up, -1 is down, 0 is idle
+    int Lastfloor;
 } Elevator;
 
 //void Initial_state();
