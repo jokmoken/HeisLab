@@ -70,6 +70,9 @@ void handleIdleState(Elevator* elevator) {
     bool hasRequests = false;
     for (int f = 0; f < N_FLOORS; f++) {
         for (int b = 0; b < N_BUTTONS; b++) {
+            
+            assert(f >= 0 && f < N_FLOORS);
+            assert(b >= 0 && b < N_BUTTONS);
             //sjekk om køen er tom
             if (elevator->requestQueue[f][b] > 0) {
                 hasRequests = true;
@@ -86,7 +89,7 @@ void handleIdleState(Elevator* elevator) {
                    
                 }
                 if (f > elevator->currentFloor && f == last_floor) {
-                    elevator->direction = (-1)*last_direction;
+                    elevator->direction = last_direction;
                     transition(elevator, Moving, Enter);
                    
                 }
@@ -97,6 +100,7 @@ void handleIdleState(Elevator* elevator) {
                     //break;
                 //hvis ordren kommer fra samme etasje
                 } else { 
+                    printf("hopped to else in moving state ----------");
                     transition(elevator, DoorOpen, Enter);
                 }
                 break;
@@ -132,38 +136,43 @@ void handleMovingState(Elevator* elevator) {
 
 // Dør er åpen
 void handleDoorOpenState(Elevator* elevator) {
-    elevio_doorOpenLamp(1); //skru på lys
+    printf("we are hopping in and ou tof here");
+    elevio_motorDirection(DIRN_STOP);
+    if(elevator->currentFloor >= 0 && elevator->currentFloor < N_FLOORS){
+        elevio_doorOpenLamp(1);
+        
+
+
     // Tøm kø for denne etasjen: bruk funksjon?
     for (int b = 0; b < N_BUTTONS; b++) {
         elevator->requestQueue[elevator->currentFloor][b] = 0;
     }
     // Vent 3? sekunder
-    for (volatile int t = 0; t < 3; t++);
+    //for (volatile int t = 0; t < 3; t++);
     elevio_doorOpenLamp(0); // skru av lampen
     transition(elevator, Idle, Enter);
+    } else {
+        printf("ERROR: current floot invalid %d", elevator->currentFloor);
+        transition(elevator, Idle, Enter);
+    }
 }
 
 // Ta seg av krise
 void handleEmergencyState(Elevator* elevator) {
-    emergency_clean_all(elevator);
-    while(elevio_stopButton()){
-        //printf("we are in an emergency state");
-        if(elevator->state == Emergency){
+    if(elevator->state == Emergency){
             elevio_motorDirection(DIRN_STOP);
             emergency_clean_all(elevator);  // Clear all requests
-        for (int f = 0; f < N_FLOORS; f++) {
-            for (int b = 0; b < N_BUTTONS; b++) {
-                //printf("queue after emergency %d", elevator->requestQueue[f][b]);
-                printf("state is now: %c", elevator->state);
-                }
-            
-            }
+            elevio_stopLamp(1);
+        
         }
-    }
+    
+    while(elevio_stopButton()){
+        
+        }
+    elevio_stopLamp(0);
 
-    printf("broke out of loop");
     transition(elevator, Emergency, Exit);
-    printf("broke out of loop");
+    
             
         
     }
@@ -198,13 +207,8 @@ void transition(Elevator* elevator, ElevatorState newState, Action action) {
             }
             break;
         case Emergency:
-            if (action == Enter) {
-                //stopp med en gang og skru på lys for stopp
-                printf("inside transition");
-                //elevio_motorDirection(DIRN_STOP); 
-                
-                elevio_stopLamp(1); 
-                //handleEmergencyState(elevator);
+            if (action == Enter) { 
+                handleEmergencyState(elevator);
                 
             } else if (action == Exit) {
                 elevio_stopLamp(0); // Turn off stop lamp

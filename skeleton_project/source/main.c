@@ -27,6 +27,12 @@ int main()
             transition(&elevator, Emergency, Enter);
             
         }
+        /*
+        if(!elevio_stopButton()){
+            printf("stop button not pressed");
+            transition(&elevator, Emergency, Exit);
+            
+        }*/
 
         //må her ha en funksjon som til en hver tid sjekker om det trykkes på en av knappene 
         //->hvis en knapp trykkes må fetch_next_state oppdateres?
