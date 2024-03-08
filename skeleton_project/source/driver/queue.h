@@ -3,8 +3,6 @@
 #include "elevio.h"
 #include "con_load.h"
 
-
-
 /*
 typedef enum {
     No_order = 0,

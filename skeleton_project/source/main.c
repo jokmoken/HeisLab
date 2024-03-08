@@ -8,7 +8,6 @@
 #include "driver/queue.h"
 #include "driver/button.h"
 
-
 Elevator elevator;
 
 int main()
@@ -16,54 +15,48 @@ int main()
     elevio_init();
 
     initializeElevator(&elevator);
-    //initialization of elevator done before the while loop starts every time
-    
-    
+    // initialization of elevator done before the while loop starts every time
 
-    
-    while(1){
-        if(elevio_stopButton()){
+    while (1)
+    {
+        if (elevio_stopButton())
+        {
             printf("stop button was pressed");
             transition(&elevator, Emergency, Enter);
-            
         }
         /*
         if(!elevio_stopButton()){
             printf("stop button not pressed");
             transition(&elevator, Emergency, Exit);
-            
+
         }*/
 
-        //må her ha en funksjon som til en hver tid sjekker om det trykkes på en av knappene 
+        // må her ha en funksjon som til en hver tid sjekker om det trykkes på en av knappene
         //->hvis en knapp trykkes må fetch_next_state oppdateres?
-        //knapp trykkes: requestqueue oppdateres: da vil vel Idle staten oppdage dette og gjøre nødvendig 
-        //stuff?
+        // knapp trykkes: requestqueue oppdateres: da vil vel Idle staten oppdage dette og gjøre nødvendig
+        // stuff?
         fetch_signals_from_button_and_addqueue(&elevator);
 
-        switch(fetch_next_state(&elevator)){
-            case Idle:
+        switch (fetch_next_state(&elevator))
+        {
+        case Idle:
             handleIdleState(&elevator);
             break;
-            case Moving:
+        case Moving:
             handleMovingState(&elevator);
             break;
-            case DoorOpen:
+        case DoorOpen:
             handleDoorOpenState(&elevator);
             break;
-            case Emergency:
+        case Emergency:
             handleEmergencyState(&elevator);
             break;
-
-
         }
-    
+
         nanosleep(&(struct timespec){0, 20 * 1000 * 1000}, NULL);
-    
     }
     return 0;
 
-    
-    
     // trenger noe som sjekker hvilke knapper som er trykket på
     // eller som hele tiden henter siste knapp som er trykket på
     // en buttons fil med funksjonalitet
@@ -129,5 +122,4 @@ int main()
 
         return 0;
     } */
-    
 }

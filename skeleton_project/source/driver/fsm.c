@@ -123,7 +123,7 @@ void handleMovingState(Elevator* elevator) {
     if (sensorSignal != -1) {
         elevator->currentFloor = sensorSignal;
         elevio_floorIndicator(sensorSignal);
-        elevator->Lastfloor = elevio_floorSensor();
+        elevator->Lastfloor = sensorSignal;
 
         // sjekk om en av etasjene har en request
         if (elevator->requestQueue[sensorSignal][0] ||
@@ -136,7 +136,7 @@ void handleMovingState(Elevator* elevator) {
 
 // Dør er åpen
 void handleDoorOpenState(Elevator* elevator) {
-    printf("we are hopping in and ou tof here");
+    printf("we are hopping in and out of here");
     elevio_motorDirection(DIRN_STOP);
     if(elevator->currentFloor >= 0 && elevator->currentFloor < N_FLOORS){
         elevio_doorOpenLamp(1);
@@ -152,7 +152,7 @@ void handleDoorOpenState(Elevator* elevator) {
     elevio_doorOpenLamp(0); // skru av lampen
     transition(elevator, Idle, Enter);
     } else {
-        printf("ERROR: current floot invalid %d", elevator->currentFloor);
+        printf("ERROR: current floor invalid %d", elevator->currentFloor);
         transition(elevator, Idle, Enter);
     }
 }
