@@ -59,10 +59,8 @@ void initializeElevator(Elevator* elevator) {
 
 // State for å ta seg av "Idle"
 void handleIdleState(Elevator* elevator) {
-    
     elevator->currentFloor = elevio_floorSensor();
     int last_floor = elevator->Lastfloor;
-    printf("last floor is now: %d", elevator->Lastfloor);
     int last_direction = elevator->direction;
 
     
@@ -74,29 +72,29 @@ void handleIdleState(Elevator* elevator) {
             if (elevator->requestQueue[f][b] > 0) {
                 hasRequests = true;
                 //hvis f er større gå opp
-                if (f > elevator->currentFloor && f > last_floor) {
+                if (f > elevator->currentFloor && f > elevator->Lastfloor) {
                     elevator->direction = 1;
                     transition(elevator, Moving, Enter);
                     
                 }
                 //når vi er mellom etasjer
-                if (f > elevator->currentFloor && f < last_floor) {
+                if (f > elevator->currentFloor && f < elevator->Lastfloor) {
                     elevator->direction = -1;
                     transition(elevator, Moving, Enter);
                    
                 }
-                if (f > elevator->currentFloor && f == last_floor) {
+                if (f > elevator->currentFloor && f == elevator->Lastfloor) {
                     elevator->direction = (-1)*last_direction;
                     transition(elevator, Moving, Enter);
                    
                 }
 
-                else if (f < elevator->currentFloor) {
+                if (f < elevator->currentFloor) {
                     elevator->direction = -1;
                     transition(elevator, Moving, Enter);
                     //break;
                 //hvis ordren kommer fra samme etasje
-                } else { 
+                } else if (f == elevator->currentFloor) { 
                     transition(elevator, DoorOpen, Enter);
                 }
                 break;
@@ -119,7 +117,7 @@ void handleMovingState(Elevator* elevator) {
     if (sensorSignal != -1) {
         elevator->currentFloor = sensorSignal;
         elevio_floorIndicator(sensorSignal);
-        elevator->Lastfloor = elevio_floorSensor();
+        elevator->Lastfloor = sensorSignal;
 
         // sjekk om en av etasjene har en request
         if (elevator->requestQueue[sensorSignal][0] ||
