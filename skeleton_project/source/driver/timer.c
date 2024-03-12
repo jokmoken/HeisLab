@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include "timer.h"
 
 void holdDoorOpen() {
     clock_t start_time = clock();  // Få starttiden
@@ -12,6 +13,8 @@ void holdDoorOpen() {
         // løkken vil kjøre til 3 sekunder har passert
         // Tror vi kan legge inn mulighet for stopp å lese
         // av stopp knappen her selv om døren er åpen
+        //Legg til add to queue? ikke mulig å legge inn nye
+        //bestillinger når døra er åpen
     }
 
     // Skru av døråpen-lampen
