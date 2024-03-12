@@ -12,10 +12,10 @@
 #include "con_load.h"
 #include "fsm.h"
 #include "timer.h"
+#include "queue.h"
 
 
 #define Between_floors -1
-static int current_Floor = 0;
 bool hasRequest = false;
 
 
@@ -61,7 +61,6 @@ void initializeElevator(Elevator* elevator) {
 // State for å ta seg av "Idle"
 void handleIdleState(Elevator* elevator) {
     elevator->currentFloor = elevio_floorSensor();
-    int last_floor = elevator->Lastfloor;
     int last_direction = elevator->direction;
 
     
@@ -131,10 +130,12 @@ void handleMovingState(Elevator* elevator) {
 
 // Dør er åpen
 void handleDoorOpenState(Elevator* elevator) {
-    
+
+    elevio_motorDirection(DIRN_STOP);
     // Tøm kø for denne etasjen: bruk funksjon?
     for (int b = 0; b < N_BUTTONS; b++) {
         elevator->requestQueue[elevator->currentFloor][b] = 0;
+        elevio_buttonLamp(elevator->currentFloor,b,0);
     }
     //skrur på lys i 3 sekund og "låser" systemet
     holdDoorOpen();
