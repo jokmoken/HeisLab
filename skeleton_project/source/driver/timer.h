@@ -2,4 +2,4 @@
 #include <time.h>
 #include <stdio.h>
 
-void holdDoorOpen()
+void holdDoorOpen();

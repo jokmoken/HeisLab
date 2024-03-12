@@ -28,10 +28,7 @@ int main()
             
         }
 
-        //må her ha en funksjon som til en hver tid sjekker om det trykkes på en av knappene 
-        //->hvis en knapp trykkes må fetch_next_state oppdateres?
-        //knapp trykkes: requestqueue oppdateres: da vil vel Idle staten oppdage dette og gjøre nødvendig 
-        //stuff?
+        
         fetch_signals_from_button_and_addqueue(&elevator);
 
         switch(fetch_next_state(&elevator)){

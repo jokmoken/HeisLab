@@ -11,6 +11,7 @@
 #include "elevio.h"
 #include "con_load.h"
 #include "fsm.h"
+#include "timer.h"
 
 
 #define Between_floors -1
@@ -130,14 +131,14 @@ void handleMovingState(Elevator* elevator) {
 
 // Dør er åpen
 void handleDoorOpenState(Elevator* elevator) {
-    elevio_doorOpenLamp(1); //skru på lys
+    
     // Tøm kø for denne etasjen: bruk funksjon?
     for (int b = 0; b < N_BUTTONS; b++) {
         elevator->requestQueue[elevator->currentFloor][b] = 0;
     }
-    // Vent 3? sekunder
-    for (volatile int t = 0; t < 3; t++);
-    elevio_doorOpenLamp(0); // skru av lampen
+    //skrur på lys i 3 sekund og "låser" systemet
+    holdDoorOpen();
+    
     transition(elevator, Idle, Enter);
 }
 
