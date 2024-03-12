@@ -1,13 +1,19 @@
-#include "timer.h"
-clock_t time_start;
+#include <stdio.h>
+#include <time.h>
 
-// void start_timer(time_start)
-// {
-//     return time_start = clock();
-// }
-// void stopAndResetTimer(clock_t start_time)
-// {
-//     time_start = clock() - time_start;
-// }
+void holdDoorOpen() {
+    clock_t start_time = clock();  // Få starttiden
+    double doorOpenDuration = 3 * CLOCKS_PER_SEC;  // 3 sekunder omgjort til clock ticks
 
-// void reset_timer();
+    // Skru på døråpen-lampen
+    elevio_doorOpenLamp(1);
+
+    while (clock() - start_time < doorOpenDuration) {
+        // løkken vil kjøre til 3 sekunder har passert
+        // Tror vi kan legge inn mulighet for stopp å lese
+        // av stopp knappen her selv om døren er åpen
+    }
+
+    // Skru av døråpen-lampen
+    elevio_doorOpenLamp(0);
+}
