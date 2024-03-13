@@ -2,5 +2,7 @@
 #include <time.h>
 #include <stdio.h>
 #include "elevio.h"
-
-void holdDoorOpen();
+#include "button.h"
+#include "elevio.h"
+#include "fsm.h"
+void holdDoorOpen(Elevator* elevator);
