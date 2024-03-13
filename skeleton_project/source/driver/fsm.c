@@ -59,7 +59,7 @@ void initializeElevator(Elevator* elevator) {
 }
 
 // State for å ta seg av "Idle"
-void handleIdleState(Elevator* elevator) {
+/*void handleIdleState(Elevator* elevator) {
     elevator->currentFloor = elevio_floorSensor();
     int last_direction = elevator->direction;
 
@@ -102,10 +102,53 @@ void handleIdleState(Elevator* elevator) {
         }
         if (hasRequests) break;
     }
+}*/
+void handleIdleState(Elevator* elevator) {
+    elevator->currentFloor = elevio_floorSensor();
+    bool hasRequests = false;
+
+    // Sjekk for forespørsler oppover først hvis vi er i bevegelse oppover eller står stille
+    if (elevator->direction >= DIRN_STOP) {
+        for (int f = N_FLOORS - 1; f > elevator->currentFloor; f--) {
+            for (int b = 0; b < N_BUTTONS; b++) {
+                if (elevator->requestQueue[f][b] > 0) {
+                    hasRequests = true;
+                    elevator->direction = DIRN_UP;
+                    transition(elevator, Moving, Enter);
+                    return;
+                }
+            }
+        }
+    }
+
+    // Deretter sjekk for forespørsler nedover
+    if (!hasRequests) {
+        for (int f = 0; f < N_FLOORS; f++) {
+            for (int b = 0; b < N_BUTTONS; b++) {
+                if (elevator->requestQueue[f][b] > 0) {
+                    hasRequests = true;
+                    if (f > elevator->currentFloor) {
+                        elevator->direction = DIRN_UP;
+                    } else if (f < elevator->currentFloor) {
+                        elevator->direction = DIRN_DOWN;
+                    } else {
+                        transition(elevator, DoorOpen, Enter);
+                    }
+                    transition(elevator, Moving, Enter);
+                    return;
+                }
+            }
+        }
+    }
+
+    if (!hasRequests) {
+        elevator->direction = DIRN_STOP;
+    }
 }
 
+
 // Tar seg av "moving"
-void handleMovingState(Elevator* elevator) {
+/*void handleMovingState(Elevator* elevator) {
     
     if (elevator->direction == 1) {
         elevio_motorDirection(DIRN_UP);
@@ -126,6 +169,33 @@ void handleMovingState(Elevator* elevator) {
             transition(elevator, DoorOpen, Enter);
         }
     }
+}*/
+void handleMovingState(Elevator* elevator) {
+    // Bestemme retning for bevegelse
+    if (elevator->direction == DIRN_UP) {
+        elevio_motorDirection(DIRN_UP);
+    } else if (elevator->direction == DIRN_DOWN) {
+        elevio_motorDirection(DIRN_DOWN);
+    }
+
+    // Lese av sensor for å se om heisen er i en etasje
+    int sensorSignal = elevio_floorSensor();
+    if (sensorSignal != -1) {
+        elevator->currentFloor = sensorSignal;
+        elevio_floorIndicator(sensorSignal);
+        elevator->Lastfloor = sensorSignal;
+
+        // Sjekk om etasjen har en gyldig forespørsel for gjeldende retning
+        if (elevator->direction == DIRN_UP &&
+            (elevator->requestQueue[sensorSignal][BUTTON_HALL_UP] ||
+             elevator->requestQueue[sensorSignal][BUTTON_CAB])) {
+            transition(elevator, DoorOpen, Enter);
+        } else if (elevator->direction == DIRN_DOWN &&
+                   (elevator->requestQueue[sensorSignal][BUTTON_HALL_DOWN] ||
+                    elevator->requestQueue[sensorSignal][BUTTON_CAB])) {
+            transition(elevator, DoorOpen, Enter);
+        }
+    }
 }
 
 // Dør er åpen
@@ -139,8 +209,11 @@ void handleDoorOpenState(Elevator* elevator) {
     }
     //skrur på lys i 3 sekund og "låser" systemet
     holdDoorOpen(elevator);
-    
-    transition(elevator, Idle, Enter);
+    //døra lukker seg ikke om obsuction er på
+    if (elevio_obstruction()==0){
+        transition(elevator, Idle, Enter);
+    }
+    //transition(elevator, Idle, Enter);
 }
 
 // Ta seg av krise
