@@ -29,7 +29,7 @@ int main()
         }
 
         
-        fetch_signals_from_button_and_addqueue(&elevator);
+      fetch_signals_from_button_and_addqueue(&elevator);
 
         switch(fetch_next_state(&elevator)){
             case Idle:
