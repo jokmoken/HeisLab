@@ -19,7 +19,7 @@ void holdDoorOpen(Elevator* elevator) {
         
         //Legg til add to queue? ikke mulig å legge inn nye
         //bestillinger når døra er åpen
-        fetch_signals_from_button_and_addqueue(&elevator);
+        fetch_signals_from_button_and_addqueue(elevator);
     }
 
     // Skru av døråpen-lampen
