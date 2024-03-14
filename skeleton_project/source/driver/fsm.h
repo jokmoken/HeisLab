@@ -22,6 +22,7 @@ typedef struct {
     int currentFloor;
     int direction; // 1 is up, -1 is down, 0 is idle
     int Lastfloor;
+    int LastDirection;
 } Elevator;
 
 //void Initial_state();
