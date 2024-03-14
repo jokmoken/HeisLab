@@ -123,7 +123,7 @@ void handleIdleState(Elevator* elevator) {
 
     // Deretter sjekk for forespørsler nedover
     if (!hasRequests) {
-        for (int f = 0; f < N_FLOORS-1; f++) {
+        for (int f = 0; f < N_FLOORS; f++) {
             for (int b = 0; b < N_BUTTONS; b++) {
                 if (elevator->requestQueue[f][b] > 0) {
                     hasRequests = true;
@@ -207,14 +207,23 @@ void handleMovingState(Elevator* elevator) {
 
         // Check if there are no further requests in the current direction
         bool noFurtherRequestsInDirection = !hasRequestsInDirection(elevator, elevator->direction);
+        if ((elevator->direction == DIRN_UP &&
+            (elevator->requestQueue[sensorSignal][BUTTON_HALL_UP] ||
+             elevator->requestQueue[sensorSignal][BUTTON_CAB])) ||
+            (elevator->direction == DIRN_DOWN &&
+             (elevator->requestQueue[sensorSignal][BUTTON_HALL_DOWN] ||
+              elevator->requestQueue[sensorSignal][BUTTON_CAB]))) {
 
+            transition(elevator, DoorOpen, Enter);
+        }
         // If there are requests on the current floor and no further requests in the current direction, stop.
         if (requestAtCurrentFloor && noFurtherRequestsInDirection) {
             transition(elevator, DoorOpen, Enter);
         }
+    
     }
-}
 
+}
 
 // Dør er åpen
 void handleDoorOpenState(Elevator* elevator) {
