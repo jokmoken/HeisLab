@@ -106,16 +106,19 @@ void initializeElevator(Elevator* elevator) {
 void handleIdleState(Elevator* elevator) {
     elevator->currentFloor = elevio_floorSensor();
     bool hasRequests = false;
+    int last_direction = elevator->direction;
 
     // Sjekk for forespørsler oppover først hvis vi er i bevegelse oppover eller står stille
-    if (elevator->direction >= DIRN_STOP) {
-        for (int f = N_FLOORS - 1; f > elevator->currentFloor; f--) {
-            for (int b = 0; b < N_BUTTONS; b++) {
-                if (elevator->requestQueue[f][b] > 0) {
-                    hasRequests = true;
-                    elevator->direction = DIRN_UP;
-                    transition(elevator, Moving, Enter);
+    if (elevator->currentFloor > Between_floors){
+        if (elevator->direction >= DIRN_STOP) {
+            for (int f = N_FLOORS - 1; f > elevator->currentFloor; f--) {
+                for (int b = 0; b < N_BUTTONS; b++) {
+                    if (elevator->requestQueue[f][b] > 0) {
+                        hasRequests = true;
+                        elevator->direction = DIRN_UP;
+                        transition(elevator, Moving, Enter);
                     return;
+                    }
                 }
             }
         }
@@ -127,14 +130,26 @@ void handleIdleState(Elevator* elevator) {
             for (int b = 0; b < N_BUTTONS; b++) {
                 if (elevator->requestQueue[f][b] > 0) {
                     hasRequests = true;
-                    if (f > elevator->currentFloor) {
+                    if (f > elevator->currentFloor && f > elevator->Lastfloor) {
                         elevator->direction = DIRN_UP;
+                        transition(elevator, Moving, Enter);
+
                     } else if (f < elevator->currentFloor) {
                         elevator->direction = DIRN_DOWN;
+                        transition(elevator, Moving, Enter);
+
+                    } else if (f > elevator->currentFloor && f < elevator->Lastfloor) {
+                        elevator->direction = DIRN_DOWN;
+                        transition(elevator, Moving, Enter);
+
+                    if (f > elevator->currentFloor && f == elevator->Lastfloor) {
+                        elevator->direction = (-1)*last_direction;
+                        transition(elevator, Moving, Enter);
+
                     } else {
                         transition(elevator, DoorOpen, Enter);
                     }
-                    transition(elevator, Moving, Enter);
+                    //transition(elevator, Moving, Enter);
                     return;
                 }
             }
@@ -145,6 +160,8 @@ void handleIdleState(Elevator* elevator) {
         elevator->direction = DIRN_STOP;
     }
 }
+}
+
 
 
 // Tar seg av "moving"
@@ -259,7 +276,7 @@ void handleEmergencyState(Elevator* elevator) {
         }
     while(elevio_stopButton()){
         if(elevator->currentFloor != -1){
-            elevio_doorOpenLamp(1);
+            elevio_doorOpenLamp(0);
         }
     }
     printf("broke out of loop");
