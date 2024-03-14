@@ -281,9 +281,11 @@ void handleEmergencyState(Elevator* elevator) {
             
             }
         }
+    elevator->currentFloor = elevio_floorSensor();
     while(elevio_stopButton()){
-        if(elevator->currentFloor != -1){
-            elevio_doorOpenLamp(0);
+        if(elevator->currentFloor != Between_floors){
+            //elevio_doorOpenLamp(1);
+            holdDoorOpen(elevator);
         }
     }
     //printf("broke out of loop");
