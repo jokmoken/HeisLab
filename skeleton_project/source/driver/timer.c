@@ -7,7 +7,7 @@
 
 void holdDoorOpen(Elevator* elevator) {
     clock_t start_time = clock();  // Få starttiden
-    double doorOpenDuration = 3 * CLOCKS_PER_SEC;  // 3 sekunder omgjort til clock ticks
+    double doorOpenDuration = (3 * CLOCKS_PER_SEC)/2;  // 3 sekunder omgjort til clock ticks
 
     // Skru på døråpen-lampen
     elevio_doorOpenLamp(1);
