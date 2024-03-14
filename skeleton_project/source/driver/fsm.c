@@ -123,7 +123,7 @@ void handleIdleState(Elevator* elevator) {
 
     // Deretter sjekk for forespørsler nedover
     if (!hasRequests) {
-        for (int f = 0; f < N_FLOORS; f++) {
+        for (int f = 0; f < N_FLOORS-1; f++) {
             for (int b = 0; b < N_BUTTONS; b++) {
                 if (elevator->requestQueue[f][b] > 0) {
                     hasRequests = true;
@@ -170,33 +170,51 @@ void handleIdleState(Elevator* elevator) {
         }
     }
 }*/
+bool hasRequestsInDirection(Elevator* elevator, int direction) {
+    for (int f = 0; f < N_FLOORS; f++) {
+        if ((direction == DIRN_UP && f > elevator->currentFloor) ||
+            (direction == DIRN_DOWN && f < elevator->currentFloor)) {
+            for (int b = 0; b < N_BUTTONS; b++) {
+                if (elevator->requestQueue[f][b] > 0) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
 void handleMovingState(Elevator* elevator) {
-    // Bestemme retning for bevegelse
+    // Continue moving in the current direction
     if (elevator->direction == DIRN_UP) {
         elevio_motorDirection(DIRN_UP);
     } else if (elevator->direction == DIRN_DOWN) {
         elevio_motorDirection(DIRN_DOWN);
     }
 
-    // Lese av sensor for å se om heisen er i en etasje
     int sensorSignal = elevio_floorSensor();
     if (sensorSignal != -1) {
         elevator->currentFloor = sensorSignal;
         elevio_floorIndicator(sensorSignal);
-        elevator->Lastfloor = sensorSignal;
 
-        // Sjekk om etasjen har en gyldig forespørsel for gjeldende retning
-        if (elevator->direction == DIRN_UP &&
-            (elevator->requestQueue[sensorSignal][BUTTON_HALL_UP] ||
-             elevator->requestQueue[sensorSignal][BUTTON_CAB])) {
-            transition(elevator, DoorOpen, Enter);
-        } else if (elevator->direction == DIRN_DOWN &&
-                   (elevator->requestQueue[sensorSignal][BUTTON_HALL_DOWN] ||
-                    elevator->requestQueue[sensorSignal][BUTTON_CAB])) {
+        // Check for any requests at the current floor
+        bool requestAtCurrentFloor = false;
+        for (int b = 0; b < N_BUTTONS; b++) {
+            if (elevator->requestQueue[sensorSignal][b] > 0) {
+                requestAtCurrentFloor = true;
+                break;
+            }
+        }
+
+        // Check if there are no further requests in the current direction
+        bool noFurtherRequestsInDirection = !hasRequestsInDirection(elevator, elevator->direction);
+
+        // If there are requests on the current floor and no further requests in the current direction, stop.
+        if (requestAtCurrentFloor && noFurtherRequestsInDirection) {
             transition(elevator, DoorOpen, Enter);
         }
     }
 }
+
 
 // Dør er åpen
 void handleDoorOpenState(Elevator* elevator) {
