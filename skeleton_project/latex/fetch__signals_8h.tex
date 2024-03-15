@@ -1,0 +1,56 @@
+\hypertarget{fetch__signals_8h}{}\doxysection{source/driver/fetch\+\_\+signals.h File Reference}
+\label{fetch__signals_8h}\index{source/driver/fetch\_signals.h@{source/driver/fetch\_signals.h}}
+
+
+Innhente signaler fra knapper som er trykket.  
+
+
+{\ttfamily \#include \char`\"{}fsm.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}elevio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}con\+\_\+load.\+h\char`\"{}}\newline
+Include dependency graph for fetch\+\_\+signals.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{fetch__signals_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{fetch__signals_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{fetch__signals_8h_adfe3b86b249756dd85a0cb2ed4e7e195}{fetch\+\_\+signals\+\_\+from\+\_\+button\+\_\+and\+\_\+addqueue}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator)
+\begin{DoxyCompactList}\small\item\em Sjekker knapper og legger til forespørsler i køen basert på aktiverte knapper. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Innhente signaler fra knapper som er trykket. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{fetch__signals_8h_adfe3b86b249756dd85a0cb2ed4e7e195}\label{fetch__signals_8h_adfe3b86b249756dd85a0cb2ed4e7e195}} 
+\index{fetch\_signals.h@{fetch\_signals.h}!fetch\_signals\_from\_button\_and\_addqueue@{fetch\_signals\_from\_button\_and\_addqueue}}
+\index{fetch\_signals\_from\_button\_and\_addqueue@{fetch\_signals\_from\_button\_and\_addqueue}!fetch\_signals.h@{fetch\_signals.h}}
+\doxysubsubsection{\texorpdfstring{fetch\_signals\_from\_button\_and\_addqueue()}{fetch\_signals\_from\_button\_and\_addqueue()}}
+{\footnotesize\ttfamily void fetch\+\_\+signals\+\_\+from\+\_\+button\+\_\+and\+\_\+addqueue (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator }\end{DoxyParamCaption})}
+
+
+
+Sjekker knapper og legger til forespørsler i køen basert på aktiverte knapper. 
+
+Denne funksjonen går gjennom alle etasjer og knappetyper for å sjekke om en knapp er trykket. Hvis en knapp er aktivert, legger funksjonen til en forespørsel i heisens kø og tenner tilhørende knappelys.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+\end{DoxyParams}

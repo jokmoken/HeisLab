@@ -1,0 +1,7 @@
+<map id="source/driver/fsm.h" name="source/driver/fsm.h">
+<area shape="rect" id="node1" title="Hovedfilen for heisprogrammet. Inneholder logikk for initialisering og håndtering av heisens tilstand..." alt="" coords="140,5,288,32"/>
+<area shape="rect" id="node2" href="$fetch__signals_8h.html" title="Innhente signaler fra knapper som er trykket." alt="" coords="87,80,231,121"/>
+<area shape="rect" id="node3" href="$door_8h_source.html" title=" " alt="" coords="5,169,156,196"/>
+<area shape="rect" id="node4" href="$main_8c.html" title="Prosjekt for tilpasset datasystem til heis." alt="" coords="212,169,325,196"/>
+<area shape="rect" id="node5" href="$queue_8h.html" title="Funksjonalitet for køssystem." alt="" coords="306,87,469,114"/>
+</map>

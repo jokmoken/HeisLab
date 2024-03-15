@@ -1,0 +1,15 @@
+<map id="source/main.c" name="source/main.c">
+<area shape="rect" id="node1" title="Prosjekt for tilpasset datasystem til heis." alt="" coords="529,5,642,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,229,72,256"/>
+<area shape="rect" id="node3" title=" " alt="" coords="674,80,745,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="769,80,842,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="523,229,587,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="867,80,941,107"/>
+<area shape="rect" id="node7" href="$elevio_8h.html" title="Interface for elevator I/O operations." alt="" coords="307,229,423,256"/>
+<area shape="rect" id="node8" href="$fsm_8h.html" title="Hovedfilen for heisprogrammet. Inneholder logikk for initialisering og håndtering av heisens tilstand..." alt="" coords="416,155,517,181"/>
+<area shape="rect" id="node9" href="$queue_8h.html" title="Funksjonalitet for køssystem." alt="" coords="245,80,361,107"/>
+<area shape="rect" id="node13" href="$fetch__signals_8h.html" title="Innhente signaler fra knapper som er trykket." alt="" coords="385,80,548,107"/>
+<area shape="rect" id="node10" href="$con__load_8h_source.html" title=" " alt="" coords="83,155,175,181"/>
+<area shape="rect" id="node11" title=" " alt="" coords="97,229,167,256"/>
+<area shape="rect" id="node12" title=" " alt="" coords="191,229,270,256"/>
+</map>

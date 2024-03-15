@@ -1,0 +1,216 @@
+\hypertarget{fsm_8c}{}\doxysection{source/driver/fsm.c File Reference}
+\label{fsm_8c}\index{source/driver/fsm.c@{source/driver/fsm.c}}
+
+
+Hovedfilen for heisprogrammet. Inneholder logikk for initialisering og håndtering av heisens tilstander.  
+
+
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+{\ttfamily \#include $<$netdb.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$pthread.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}elevio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}con\+\_\+load.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}fsm.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}timer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}queue.\+h\char`\"{}}\newline
+Include dependency graph for fsm.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{fsm_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{fsm_8c_aa6b9eef8a96abbce23c10b80e82aed74}\label{fsm_8c_aa6b9eef8a96abbce23c10b80e82aed74}} 
+\#define {\bfseries Between\+\_\+floors}~-\/1
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{fsm_8c_ae654eceac3f5ede2cb6258de91f72dd5}{initialize\+Elevator}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator)
+\begin{DoxyCompactList}\small\item\em Initialiserer heisen ved å kjøre til nærmeste etasje, tømme køen og skru av alle lys. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fsm_8c_a410961d54dbbb3e9abb626f8f8371b95}{handle\+Idle\+State}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator)
+\begin{DoxyCompactList}\small\item\em Håndterer I\+D\+L\+E-\/tilstanden til heisen. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{fsm_8c_a549955de6d0b50736bb152d47f672b02}{has\+Requests\+In\+Direction}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator, int direction)
+\begin{DoxyCompactList}\small\item\em Sjekker om det finnes forespørsler i en gitt retning. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fsm_8c_af5ae89b7447e797915caf6ee4b3270f7}{handle\+Moving\+State}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator)
+\begin{DoxyCompactList}\small\item\em Håndterer M\+O\+V\+I\+N\+G-\/tilstanden til heisen. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fsm_8c_a05c9e1f9b18d7bf0d6a8c5fc26eaadf4}{handle\+Door\+Open\+State}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator)
+\begin{DoxyCompactList}\small\item\em Håndterer D\+O\+OR O\+P\+E\+N-\/tilstanden til heisen. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fsm_8c_a532717c69b4d232b6fddda7932f71fd6}{handle\+Emergency\+State}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator)
+\begin{DoxyCompactList}\small\item\em Håndterer E\+M\+E\+R\+G\+E\+N\+C\+Y-\/tilstanden til heisen. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fsm_8c_a0a835a145e31e2fc813a8e31336fc4a0}{transition}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator, Elevator\+State new\+State, Action action)
+\begin{DoxyCompactList}\small\item\em Utfører en tilstandsendring for heisen basert på gitt ny tilstand og handling. \end{DoxyCompactList}\item 
+Elevator\+State \mbox{\hyperlink{fsm_8c_ab5de4d331bba147f9584d6ebd62212e6}{fetch\+\_\+next\+\_\+state}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator)
+\begin{DoxyCompactList}\small\item\em Henter den neste tilstanden for heisen. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{fsm_8c_a86fbadc31a72a0c408a75b79f80781be}\label{fsm_8c_a86fbadc31a72a0c408a75b79f80781be}} 
+bool {\bfseries has\+Request} = false
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Hovedfilen for heisprogrammet. Inneholder logikk for initialisering og håndtering av heisens tilstander. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{fsm_8c_ab5de4d331bba147f9584d6ebd62212e6}\label{fsm_8c_ab5de4d331bba147f9584d6ebd62212e6}} 
+\index{fsm.c@{fsm.c}!fetch\_next\_state@{fetch\_next\_state}}
+\index{fetch\_next\_state@{fetch\_next\_state}!fsm.c@{fsm.c}}
+\doxysubsubsection{\texorpdfstring{fetch\_next\_state()}{fetch\_next\_state()}}
+{\footnotesize\ttfamily Elevator\+State fetch\+\_\+next\+\_\+state (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator }\end{DoxyParamCaption})}
+
+
+
+Henter den neste tilstanden for heisen. 
+
+Denne funksjonen returnerer heisens nåværende tilstand. Det er en hjelpefunksjon som kan brukes til å spørre om heisens nåværende tilstand uten å direkte få tilgang til heisens tilstandsvariabel.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Heisens nåværende tilstand som en verdi av typen {\ttfamily Elevator\+State}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{fsm_8c_a05c9e1f9b18d7bf0d6a8c5fc26eaadf4}\label{fsm_8c_a05c9e1f9b18d7bf0d6a8c5fc26eaadf4}} 
+\index{fsm.c@{fsm.c}!handleDoorOpenState@{handleDoorOpenState}}
+\index{handleDoorOpenState@{handleDoorOpenState}!fsm.c@{fsm.c}}
+\doxysubsubsection{\texorpdfstring{handleDoorOpenState()}{handleDoorOpenState()}}
+{\footnotesize\ttfamily void handle\+Door\+Open\+State (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator }\end{DoxyParamCaption})}
+
+
+
+Håndterer D\+O\+OR O\+P\+E\+N-\/tilstanden til heisen. 
+
+Åpner heisdøren, tømmer forespørselskøen for nåværende etasje, og holder døren åpen et bestemt antall sekunder eller til en obstruksjon detekteres.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{fsm_8c_a532717c69b4d232b6fddda7932f71fd6}\label{fsm_8c_a532717c69b4d232b6fddda7932f71fd6}} 
+\index{fsm.c@{fsm.c}!handleEmergencyState@{handleEmergencyState}}
+\index{handleEmergencyState@{handleEmergencyState}!fsm.c@{fsm.c}}
+\doxysubsubsection{\texorpdfstring{handleEmergencyState()}{handleEmergencyState()}}
+{\footnotesize\ttfamily void handle\+Emergency\+State (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator }\end{DoxyParamCaption})}
+
+
+
+Håndterer E\+M\+E\+R\+G\+E\+N\+C\+Y-\/tilstanden til heisen. 
+
+Stopper heisen umiddelbart, tømmer alle forespørselskøer, og håndterer nødstilfellet basert på heisens nåværende posisjon og tilstand.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{fsm_8c_a410961d54dbbb3e9abb626f8f8371b95}\label{fsm_8c_a410961d54dbbb3e9abb626f8f8371b95}} 
+\index{fsm.c@{fsm.c}!handleIdleState@{handleIdleState}}
+\index{handleIdleState@{handleIdleState}!fsm.c@{fsm.c}}
+\doxysubsubsection{\texorpdfstring{handleIdleState()}{handleIdleState()}}
+{\footnotesize\ttfamily void handle\+Idle\+State (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator }\end{DoxyParamCaption})}
+
+
+
+Håndterer I\+D\+L\+E-\/tilstanden til heisen. 
+
+Sjekker forespørselskøen for oppgaver. Dersom det finnes forespørsler, bestemmer funksjonen retningen heisen skal bevege seg og transisjonerer til M\+O\+V\+I\+N\+G-\/tilstand. Dersom ingen forespørsler finnes, forblir heisen i I\+D\+L\+E-\/tilstand.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{fsm_8c_af5ae89b7447e797915caf6ee4b3270f7}\label{fsm_8c_af5ae89b7447e797915caf6ee4b3270f7}} 
+\index{fsm.c@{fsm.c}!handleMovingState@{handleMovingState}}
+\index{handleMovingState@{handleMovingState}!fsm.c@{fsm.c}}
+\doxysubsubsection{\texorpdfstring{handleMovingState()}{handleMovingState()}}
+{\footnotesize\ttfamily void handle\+Moving\+State (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator }\end{DoxyParamCaption})}
+
+
+
+Håndterer M\+O\+V\+I\+N\+G-\/tilstanden til heisen. 
+
+Fortsetter å bevege heisen i den forrige bestemte retningen. Sjekker for forespørsler på nåværende etasje, og om det er nødvendig å endre tilstand basert på forespørsler og heisens posisjon.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{fsm_8c_a549955de6d0b50736bb152d47f672b02}\label{fsm_8c_a549955de6d0b50736bb152d47f672b02}} 
+\index{fsm.c@{fsm.c}!hasRequestsInDirection@{hasRequestsInDirection}}
+\index{hasRequestsInDirection@{hasRequestsInDirection}!fsm.c@{fsm.c}}
+\doxysubsubsection{\texorpdfstring{hasRequestsInDirection()}{hasRequestsInDirection()}}
+{\footnotesize\ttfamily bool has\+Requests\+In\+Direction (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator,  }\item[{int}]{direction }\end{DoxyParamCaption})}
+
+
+
+Sjekker om det finnes forespørsler i en gitt retning. 
+
+Går gjennom forespørselskøen for å finne om det er noen forespørsler i den angitte retningen relativt til heisens nåværende etasje.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+{\em direction} & Retningen å sjekke forespørsler i. Kan være D\+I\+R\+N\+\_\+\+UP eller D\+I\+R\+N\+\_\+\+D\+O\+WN. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true hvis det finnes forespørsler i den angitte retningen, ellers false. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{fsm_8c_ae654eceac3f5ede2cb6258de91f72dd5}\label{fsm_8c_ae654eceac3f5ede2cb6258de91f72dd5}} 
+\index{fsm.c@{fsm.c}!initializeElevator@{initializeElevator}}
+\index{initializeElevator@{initializeElevator}!fsm.c@{fsm.c}}
+\doxysubsubsection{\texorpdfstring{initializeElevator()}{initializeElevator()}}
+{\footnotesize\ttfamily void initialize\+Elevator (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator }\end{DoxyParamCaption})}
+
+
+
+Initialiserer heisen ved å kjøre til nærmeste etasje, tømme køen og skru av alle lys. 
+
+Kjører heisen nedover til en etasje detekteres. Initialiserer deretter heisens tilstand til I\+D\+LE, tømmer alle forespørselskøer og skrur av alle lys.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{fsm_8c_a0a835a145e31e2fc813a8e31336fc4a0}\label{fsm_8c_a0a835a145e31e2fc813a8e31336fc4a0}} 
+\index{fsm.c@{fsm.c}!transition@{transition}}
+\index{transition@{transition}!fsm.c@{fsm.c}}
+\doxysubsubsection{\texorpdfstring{transition()}{transition()}}
+{\footnotesize\ttfamily void transition (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator,  }\item[{Elevator\+State}]{new\+State,  }\item[{Action}]{action }\end{DoxyParamCaption})}
+
+
+
+Utfører en tilstandsendring for heisen basert på gitt ny tilstand og handling. 
+
+Denne funksjonen oppdaterer heisens tilstand og utfører nødvendige handlinger ved overgangen til en ny tilstand. Handlingene varierer avhengig av tilstanden som blir angitt og kan inkludere å stoppe motoren, håndtere døråpninger, og å reagere på nødsituasjoner.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+{\em new\+State} & Den nye tilstanden heisen skal overgå til. \\
+\hline
+{\em action} & Den handlingen som skal utføres, som kan være å entre, utføre eller forlate en tilstand. \\
+\hline
+\end{DoxyParams}

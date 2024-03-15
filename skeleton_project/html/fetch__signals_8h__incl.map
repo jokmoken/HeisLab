@@ -1,0 +1,10 @@
+<map id="source/driver/fetch_signals.h" name="source/driver/fetch_signals.h">
+<area shape="rect" id="node1" title="Innhente signaler fra knapper som er trykket." alt="" coords="56,5,200,47"/>
+<area shape="rect" id="node2" href="$fsm_8h.html" title="Hovedfilen for heisprogrammet. Inneholder logikk for initialisering og håndtering av heisens tilstand..." alt="" coords="99,95,157,121"/>
+<area shape="rect" id="node3" href="$elevio_8h.html" title="Interface for elevator I/O operations." alt="" coords="5,169,80,196"/>
+<area shape="rect" id="node5" href="$con__load_8h_source.html" title=" " alt="" coords="186,95,278,121"/>
+<area shape="rect" id="node4" title=" " alt="" coords="104,169,168,196"/>
+<area shape="rect" id="node6" title=" " alt="" coords="192,169,259,196"/>
+<area shape="rect" id="node7" title=" " alt="" coords="283,169,354,196"/>
+<area shape="rect" id="node8" title=" " alt="" coords="378,169,457,196"/>
+</map>

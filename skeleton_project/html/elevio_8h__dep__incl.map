@@ -1,0 +1,8 @@
+<map id="source/driver/elevio.h" name="source/driver/elevio.h">
+<area shape="rect" id="node1" title="Interface for elevator I/O operations." alt="" coords="159,5,321,32"/>
+<area shape="rect" id="node2" href="$door_8h_source.html" title=" " alt="" coords="21,244,171,271"/>
+<area shape="rect" id="node3" href="$fsm_8h.html" title="Hovedfilen for heisprogrammet. Inneholder logikk for initialisering og håndtering av heisens tilstand..." alt="" coords="166,80,314,107"/>
+<area shape="rect" id="node4" href="$fetch__signals_8h.html" title="Innhente signaler fra knapper som er trykket." alt="" coords="24,155,168,196"/>
+<area shape="rect" id="node5" href="$main_8c.html" title="Prosjekt for tilpasset datasystem til heis." alt="" coords="258,244,371,271"/>
+<area shape="rect" id="node6" href="$queue_8h.html" title="Funksjonalitet for køssystem." alt="" coords="293,162,456,189"/>
+</map>

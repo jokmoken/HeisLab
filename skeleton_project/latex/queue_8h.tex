@@ -1,0 +1,100 @@
+\hypertarget{queue_8h}{}\doxysection{source/driver/queue.h File Reference}
+\label{queue_8h}\index{source/driver/queue.h@{source/driver/queue.h}}
+
+
+Funksjonalitet for køssystem.  
+
+
+{\ttfamily \#include \char`\"{}fsm.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}elevio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}con\+\_\+load.\+h\char`\"{}}\newline
+Include dependency graph for queue.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{queue_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{queue_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{queue_8h_af137f3515b92e67182cd3d64efa663d8}{add\+Request}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator, int floor, \mbox{\hyperlink{elevio_8h_ae2d5c50fae96a83cc4f5974af78e6943}{Button\+Type}} order)
+\begin{DoxyCompactList}\small\item\em Legger til en forespørsel i heisens forespørselskø. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{queue_8h_a2fa9dbba20a6a4852a46e5f9819c0559}{remove\+Request}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator, int floor)
+\begin{DoxyCompactList}\small\item\em Fjerner alle forespørsler for en gitt etasje fra heisens forespørselskø. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{queue_8h_ad14e40c45eb7d122d2ebdfaf0bf56024}{emergency\+\_\+clean\+\_\+all}} (\mbox{\hyperlink{structElevator}{Elevator}} $\ast$elevator)
+\begin{DoxyCompactList}\small\item\em Fjerner alle forespørsler fra heisens forespørselskø som en del av nødprosedyren. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Funksjonalitet for køssystem. 
+
+Denne filen innehar funksjonalitet for hvordan en legger til ordre i kø, hvordan en fjerner alle ordre i en etasje, og hvordan en tømmer køen ved nødstopp 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{queue_8h_af137f3515b92e67182cd3d64efa663d8}\label{queue_8h_af137f3515b92e67182cd3d64efa663d8}} 
+\index{queue.h@{queue.h}!addRequest@{addRequest}}
+\index{addRequest@{addRequest}!queue.h@{queue.h}}
+\doxysubsubsection{\texorpdfstring{addRequest()}{addRequest()}}
+{\footnotesize\ttfamily void add\+Request (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator,  }\item[{int}]{floor,  }\item[{\mbox{\hyperlink{elevio_8h_ae2d5c50fae96a83cc4f5974af78e6943}{Button\+Type}}}]{order }\end{DoxyParamCaption})}
+
+
+
+Legger til en forespørsel i heisens forespørselskø. 
+
+Denne funksjonen legger til en forespørsel for en bestemt etasje og knappetype i heisens forespørselskø. Hvis etasjen er gyldig, vil den tilsvarende forespørselen bli markert som aktiv.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+{\em floor} & Etasjen hvor forespørselen kommer fra. \\
+\hline
+{\em order} & Typen av knapp som ble trykket (f.\+eks. kall opp, kall ned, eller kabin). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{queue_8h_ad14e40c45eb7d122d2ebdfaf0bf56024}\label{queue_8h_ad14e40c45eb7d122d2ebdfaf0bf56024}} 
+\index{queue.h@{queue.h}!emergency\_clean\_all@{emergency\_clean\_all}}
+\index{emergency\_clean\_all@{emergency\_clean\_all}!queue.h@{queue.h}}
+\doxysubsubsection{\texorpdfstring{emergency\_clean\_all()}{emergency\_clean\_all()}}
+{\footnotesize\ttfamily void emergency\+\_\+clean\+\_\+all (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator }\end{DoxyParamCaption})}
+
+
+
+Fjerner alle forespørsler fra heisens forespørselskø som en del av nødprosedyren. 
+
+Denne funksjonen går gjennom hele forespørselskøen og setter hver eneste forespørsel til 0, effektivt tømmende køen. Dette er ment å bli brukt i nødsituasjoner for å resette heisens tilstand.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{queue_8h_a2fa9dbba20a6a4852a46e5f9819c0559}\label{queue_8h_a2fa9dbba20a6a4852a46e5f9819c0559}} 
+\index{queue.h@{queue.h}!removeRequest@{removeRequest}}
+\index{removeRequest@{removeRequest}!queue.h@{queue.h}}
+\doxysubsubsection{\texorpdfstring{removeRequest()}{removeRequest()}}
+{\footnotesize\ttfamily void remove\+Request (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structElevator}{Elevator}} $\ast$}]{elevator,  }\item[{int}]{floor }\end{DoxyParamCaption})}
+
+
+
+Fjerner alle forespørsler for en gitt etasje fra heisens forespørselskø. 
+
+Denne funksjonen går gjennom alle knappetyper for en spesifikk etasje og fjerner alle aktive forespørsler ved å sette dem til 0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator} & En peker til heisens tilstandsstruktur. \\
+\hline
+{\em floor} & Etasjen hvor alle forespørsler skal fjernes. \\
+\hline
+\end{DoxyParams}

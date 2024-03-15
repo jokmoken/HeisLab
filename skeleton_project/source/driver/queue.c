@@ -11,21 +11,6 @@
 #include "fsm.h"
 #include "queue.h"
 
-//#define N_FLOORS 4
-
-
-//#define MAX_FLOOR 6
-//int floorRequestqueue[] = {11, 21, 22, 31, 32, 42}
-//bool floorRequestqueue[MAX_FLOOR] = {false};
-
-/*
-typedef enum {
-    NO_ORDER = 0,
-    BUTTON_HALL_UP = 1,
-    BUTTON_HALL_DOWN = 2,
-    BUTTON_CAB = 3,
-} Orderlist;
-*/
 
 void addRequest(Elevator* elevator, int floor, ButtonType order){
     if(floor >= 0 && floor < N_FLOORS) {

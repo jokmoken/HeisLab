@@ -1,3 +1,5 @@
+
+
 #include <assert.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -11,13 +13,12 @@
 #include "elevio.h"
 #include "con_load.h"
 #include "fsm.h"
-#include "timer.h"
+#include "fetch_signals.h"
 #include "queue.h"
 
 
 #define Between_floors -1
 bool hasRequest = false;
-
 
 
 void initializeElevator(Elevator* elevator) {
@@ -59,51 +60,7 @@ void initializeElevator(Elevator* elevator) {
     
 }
 
-// State for å ta seg av "Idle"
-/*void handleIdleState(Elevator* elevator) {
-    elevator->currentFloor = elevio_floorSensor();
-    int last_direction = elevator->direction;
 
-    
-    // Check if there are any requests
-    bool hasRequests = false;
-    for (int f = 0; f < N_FLOORS; f++) {
-        for (int b = 0; b < N_BUTTONS; b++) {
-            //sjekk om køen er tom
-            if (elevator->requestQueue[f][b] > 0) {
-                hasRequests = true;
-                //hvis f er større gå opp
-                if (f > elevator->currentFloor && f > elevator->Lastfloor) {
-                    elevator->direction = 1;
-                    transition(elevator, Moving, Enter);
-                    
-                }
-                //når vi er mellom etasjer
-                if (f > elevator->currentFloor && f < elevator->Lastfloor) {
-                    elevator->direction = -1;
-                    transition(elevator, Moving, Enter);
-                   
-                }
-                if (f > elevator->currentFloor && f == elevator->Lastfloor) {
-                    elevator->direction = (-1)*last_direction;
-                    transition(elevator, Moving, Enter);
-                   
-                }
-
-                if (f < elevator->currentFloor) {
-                    elevator->direction = -1;
-                    transition(elevator, Moving, Enter);
-                    //break;
-                //hvis ordren kommer fra samme etasje
-                } else if (f == elevator->currentFloor) { 
-                    transition(elevator, DoorOpen, Enter);
-                }
-                break;
-            }
-        }
-        if (hasRequests) break;
-    }
-}*/
 void handleIdleState(Elevator* elevator) {
     elevator->currentFloor = elevio_floorSensor();
     bool hasRequests = false;
@@ -167,31 +124,6 @@ void handleIdleState(Elevator* elevator) {
 }
 
 
-
-
-// Tar seg av "moving"
-/*void handleMovingState(Elevator* elevator) {
-    
-    if (elevator->direction == 1) {
-        elevio_motorDirection(DIRN_UP);
-    } else if (elevator->direction == -1) {
-        elevio_motorDirection(DIRN_DOWN);
-    }
-
-    int sensorSignal = elevio_floorSensor();
-    if (sensorSignal != -1) {
-        elevator->currentFloor = sensorSignal;
-        elevio_floorIndicator(sensorSignal);
-        elevator->Lastfloor = sensorSignal;
-
-        // sjekk om en av etasjene har en request
-        if (elevator->requestQueue[sensorSignal][0] ||
-            elevator->requestQueue[sensorSignal][1] ||
-            elevator->requestQueue[sensorSignal][2]) {
-            transition(elevator, DoorOpen, Enter);
-        }
-    }
-}*/
 bool hasRequestsInDirection(Elevator* elevator, int direction) {
     for (int f = 0; f < N_FLOORS; f++) {
         if ((direction == DIRN_UP && f > elevator->currentFloor) ||

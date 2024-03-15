@@ -1,0 +1,10 @@
+<map id="source/driver/queue.h" name="source/driver/queue.h">
+<area shape="rect" id="node1" title="Funksjonalitet for køssystem." alt="" coords="47,5,209,32"/>
+<area shape="rect" id="node2" href="$fsm_8h.html" title="Hovedfilen for heisprogrammet. Inneholder logikk for initialisering og håndtering av heisens tilstand..." alt="" coords="99,80,157,107"/>
+<area shape="rect" id="node3" href="$elevio_8h.html" title="Interface for elevator I/O operations." alt="" coords="5,155,80,181"/>
+<area shape="rect" id="node5" href="$con__load_8h_source.html" title=" " alt="" coords="186,80,278,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="104,155,168,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="192,155,259,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="283,155,354,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="378,155,457,181"/>
+</map>
