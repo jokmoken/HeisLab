@@ -55,7 +55,7 @@ typedef struct {
  * Kjører heisen nedover til en etasje detekteres. Initialiserer deretter heisens tilstand til IDLE,
  * tømmer alle forespørselskøer og skrur av alle lys.
  * 
- * @param elevator En peker til heisens tilstandsstruktur.
+ * @param elevator En peker til heisens tilstand.
  */
 void initializeElevator(Elevator* elevator);
 
@@ -66,7 +66,7 @@ void initializeElevator(Elevator* elevator);
  * retningen heisen skal bevege seg og transisjonerer til MOVING-tilstand. Dersom ingen forespørsler
  * finnes, forblir heisen i IDLE-tilstand.
  * 
- * @param elevator En peker til heisens tilstandsstruktur.
+ * @param elevator En peker til heisens tilstand.
  */
 void handleIdleState(Elevator* elevator);
 
@@ -76,7 +76,7 @@ void handleIdleState(Elevator* elevator);
  * Går gjennom forespørselskøen for å finne om det er noen forespørsler i den angitte retningen
  * relativt til heisens nåværende etasje.
  * 
- * @param elevator En peker til heisens tilstandsstruktur.
+ * @param elevator En peker til heisens tilstand.
  * @param direction Retningen å sjekke forespørsler i. Kan være DIRN_UP eller DIRN_DOWN.
  * @return true hvis det finnes forespørsler i den angitte retningen, ellers false.
  */
@@ -88,7 +88,7 @@ bool hasRequestsInDirection(Elevator* elevator, int direction);
  * Fortsetter å bevege heisen i den forrige bestemte retningen. Sjekker for forespørsler på nåværende
  * etasje, og om det er nødvendig å endre tilstand basert på forespørsler og heisens posisjon.
  * 
- * @param elevator En peker til heisens tilstandsstruktur.
+ * @param elevator En peker til heisens tilstand.
  */
 void handleMovingState(Elevator* elevator);
 
@@ -98,7 +98,7 @@ void handleMovingState(Elevator* elevator);
  * Åpner heisdøren, tømmer forespørselskøen for nåværende etasje, og holder døren åpen et bestemt
  * antall sekunder eller til en obstruksjon detekteres.
  * 
- * @param elevator En peker til heisens tilstandsstruktur.
+ * @param elevator En peker til heisens tilstand.
  */
 void handleDoorOpenState(Elevator* elevator);
 
@@ -108,7 +108,7 @@ void handleDoorOpenState(Elevator* elevator);
  * Stopper heisen umiddelbart, tømmer alle forespørselskøer, og håndterer nødstilfellet
  * basert på heisens nåværende posisjon og tilstand.
  * 
- * @param elevator En peker til heisens tilstandsstruktur.
+ * @param elevator En peker til heisens tilstand.
  */
 void handleEmergencyState(Elevator* elevator);
 
@@ -119,7 +119,7 @@ void handleEmergencyState(Elevator* elevator);
  * Handlingene varierer avhengig av tilstanden som blir angitt og kan inkludere å stoppe motoren, håndtere døråpninger,
  * og å reagere på nødsituasjoner.
  * 
- * @param elevator En peker til heisens tilstandsstruktur.
+ * @param elevator En peker til heisens tilstand.
  * @param newState Den nye tilstanden heisen skal overgå til.
  * @param action Den handlingen som skal utføres, som kan være å entre, utføre eller forlate en tilstand.
  */
@@ -131,7 +131,7 @@ void transition(Elevator* elevator, ElevatorState newState, Action action);
  * Denne funksjonen returnerer heisens nåværende tilstand. Det er en hjelpefunksjon som kan brukes til å spørre
  * om heisens nåværende tilstand uten å direkte få tilgang til heisens tilstandsvariabel.
  * 
- * @param elevator En peker til heisens tilstandsstruktur.
+ * @param elevator En peker til heisens tilstand.
  * @return Heisens nåværende tilstand som en verdi av typen @c ElevatorState.
  */
 ElevatorState fetch_next_state(Elevator* elevator);
