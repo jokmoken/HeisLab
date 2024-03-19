@@ -1,7 +1,7 @@
 
 #include "elevio.h"
 #include "queue.h"
-#include "button.h"
+#include "fetch_signals.h"
 
 
 void fetch_signals_from_button_and_addqueue(Elevator* elevator){

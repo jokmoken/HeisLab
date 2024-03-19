@@ -1,6 +1,7 @@
 #pragma once
 #include "elevio.h"
 #include <time.h>
+#include <stdbool.h>
 
 /**
  * @file fsm.h
