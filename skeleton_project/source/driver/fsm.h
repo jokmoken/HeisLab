@@ -9,10 +9,10 @@
 
 /**
  * @enum ElevatorState
- * @brief Represents the possible states of an elevator.
+ * @brief Representerer de mulige tilstandene til en heis.
  *
- * The elevator can be in one of several states indicating its current operation, such as idle, moving,
- * door open, or in an emergency state.
+ * Heisen kan være i en av flere tilstander som indikerer dens nåværende operasjon, som for eksempel inaktiv, i bevegelse,
+ * dør åpen, eller i en nødssituasjon.
  */
 typedef enum {
     Idle,
@@ -23,9 +23,9 @@ typedef enum {
 
 /**
  * @enum Action
- * @brief Represents actions that can be performed during state transitions.
+ * @brief Representerer handlinger som kan utføres under tilstandsoverganger.
  *
- * Actions define what the elevator should do when entering, performing in, or exiting a state.
+ * Handlinger definerer hva heisen skal gjøre når den entrer, utfører i, eller forlater en tilstand.
  */
 typedef enum {
     Enter,
@@ -34,10 +34,10 @@ typedef enum {
 
 /**
  * @struct Elevator
- * @brief Represents an elevator, including its state and operational parameters.
+ * @brief Representerer en heis, inkludert dens tilstand og operative parametere.
  *
- * This struct holds information about the elevator's current state, the request queue for each floor
- * and button, the current and last floor, as well as the current and last direction of movement.
+ * Denne strukturen inneholder informasjon om heisens nåværende tilstand, forespørselskøen for hver etasje
+ * og knapp, den nåværende og siste etasjen, samt den nåværende og siste bevegelsesretningen.
  */
 typedef struct {
     ElevatorState state;

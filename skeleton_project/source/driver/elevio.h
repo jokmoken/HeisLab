@@ -8,7 +8,7 @@
  * such as moving the elevator, turning on/off buttons and floor lamps, and
  * detecting elevator and button states.
  */
-
+    
 #define N_FLOORS 4 /**< Antall etasjer i bygningen. */
 
 /**

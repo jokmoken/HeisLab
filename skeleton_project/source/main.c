@@ -18,9 +18,9 @@ Elevator elevator;
 int main()
 {
     elevio_init();
-
+    //initialisering før start av løkken
     initializeElevator(&elevator);
-    //initialization of elevator done before the while loop starts every time
+    
     
     
 
